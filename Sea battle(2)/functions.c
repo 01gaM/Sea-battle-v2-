@@ -96,7 +96,6 @@ int checkNeighbours(char map[FIELD_SIZE][FIELD_SIZE], int currI, int currJ) {
 		return 0;
 	}
 
-
 	return 1;//точка не пересекается с соседними
 
 }
@@ -132,7 +131,7 @@ int addShip(char map[FIELD_SIZE][FIELD_SIZE], struct Coordinate b, struct Coordi
 	return 1;//success
 }
 
-int getShipLen(struct Coordinate b, struct Coordinate e) {
+int getShipLen(struct Coordinate b, struct Coordinate e) {//получаем длину корабля
 	int s1 = e.ch - b.ch;
 	int s2 = e.num - b.num;
 	if (s1 > s2) {
@@ -145,10 +144,6 @@ int getShipLen(struct Coordinate b, struct Coordinate e) {
 
 
 void fillBotField(char map[FIELD_SIZE][FIELD_SIZE]) {
-	//int currI;
-	int currJ;
-	int endI;
-	int endJ;
 	struct Coordinate begin;
 	struct Coordinate end;
 	srand(time(NULL));//инициализация rand
@@ -177,8 +172,6 @@ void fillBotField(char map[FIELD_SIZE][FIELD_SIZE]) {
 						botShipsCount[currType]--;//убираем корабль из списка доступных
 					}
 				}
-				//printField(map);
-				//printShipsCount(botShipsCount);
 			}
 		}
 	}
@@ -461,7 +454,7 @@ int hitTarget(struct Coordinate target, char field[FIELD_SIZE][FIELD_SIZE], int 
 	struct Coordinate aim;
 	aim.num = target.num;
 	aim.ch = target.ch - 1;
-	int x;
+	int x;//результат хода
 
 	if ((aim.ch - 'A' >= 0) && ((field[aim.ch - 'A'][aim.num - 1] == 'o') || (field[aim.ch - 'A'][aim.num - 1] == ' '))) {
 		x = nextTurn(aim, field, shipCount);
@@ -526,7 +519,6 @@ int hitTarget(struct Coordinate target, char field[FIELD_SIZE][FIELD_SIZE], int 
 }
 
 int search(char field[FIELD_SIZE][FIELD_SIZE], int shipCount[], struct Coordinate* aim) {
-	//struct Coordinate aim;
 	int currX = 3;
 	int x;
 	int currY = 0;
@@ -589,8 +581,7 @@ int search(char field[FIELD_SIZE][FIELD_SIZE], int shipCount[], struct Coordinat
 }
 
 struct Coordinate botTurn(char enemyField[FIELD_SIZE][FIELD_SIZE], char field[FIELD_SIZE][FIELD_SIZE], int botShipCount[], int playerShipCount[], struct Coordinate currAim) {
-	///test 3.0
-	int y = 0;//инициализируем y
+	int y = 0;//результат добивания корабля
 	int x;
 	if ((currAim.ch == '0') && (currAim.num == 0)) {//если нет текущей цели
 		x = search(enemyField, playerShipCount, &currAim);//находим её
@@ -606,38 +597,17 @@ struct Coordinate botTurn(char enemyField[FIELD_SIZE][FIELD_SIZE], char field[FI
 		currAim.ch = '0';//обнуляем текущую цель, т.к. попадание мимо
 		currAim.num = 0;
 	}
-	//printGameSpace(enemyField, field, botShipCount, playerShipCount);
+
 	if (y == 1) {//если цель уничтожена
 		currAim.ch = '0';//обнуляем текущую цель
 		currAim.num = 0;
 		return botTurn(enemyField, field, botShipCount, playerShipCount, currAim);//повтор хода т.к. попадание 
 	}
-	printGameSpace(enemyField, field, botShipCount, playerShipCount);////////////////////////////////////////////////
+	printGameSpace(enemyField, field, botShipCount, playerShipCount);
 	//если не уничтожена, то сохраняем текущую цель без изменений
 	return currAim;
 }
 
-/*
-struct Coordinate getCoordinate(char field[FIELD_SIZE][FIELD_SIZE]) {
-	struct Coordinate c;
-	int x = scanf_s("%d%c", &c.num, &c.ch);
-	while ((x == 0) || (c.ch < 'A') || (c.ch > 'J') || (c.num < 1) || (c.num > 10)) {
-		printf_s("\nКоординаты корабля должны состоять из целого числа от 1 до 10 и буквы от 'A' до 'J'.\nВведите другие координаты: ");
-		//сбрасываем введённые ранее данные
-		x = getchar();
-		while (x != '\n') {
-			x = getchar();
-		}
-		//считываем новые данные
-		x = scanf_s("%d%c", &c.num, &c.ch);
-	}
-	if ((field[c.ch - 'A'][c.num - 1] != 'o') && (field[c.ch - 'A'][c.num - 1] != ' ')) {
-		printf_s("\nДанная точка уже проверена. Введите новые координаты: ");
-		return getCoordinate(field);
-	}
-	return c;
-}
-*/
 
 struct Coordinate getCoordinate(char field[FIELD_SIZE][FIELD_SIZE]) {
 	struct Coordinate c;
@@ -671,25 +641,7 @@ struct Coordinate getCoordinate(char field[FIELD_SIZE][FIELD_SIZE]) {
 	return c;
 }
 
-/*
-int getType() {
-	int currType;
-	char x;
-	char ch;
-	scanf_s("%d%c", &currType, &ch);
-	while ((currType < 1) || (currType > 4) || (ch != '\n')) {//если число не является допустимым для типа или было введено не только число
-		printf_s("Недопустимое значение типа. Введите число от 1 до 4: ");
-		if (ch != '\n') {//если ранее было введено не только одно число
-			x = getchar();
-			while (x != '\n') {//сбрасываем всё введённое ранее
-				x = getchar();
-			}
-		}
-		scanf_s("%d%c", &currType, &ch);//считываем новые данные
-	}
-	return currType;
-}
-*/
+
 int getType() {
 	int currType;
 	char ch;
