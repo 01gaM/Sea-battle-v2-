@@ -3,82 +3,82 @@
 #include <stdlib.h>
 #include "Header.h"
 
-
+//
 int main() {
 	setlocale(LC_ALL, "RUS");
-	printf_s("Условные обозначения:\n");
-	printf_s("o - часть корабля\n");
-	printf_s(". - пустая клетка\n");
-	printf_s("x - повреждённая часть корабля\n");
-	printf_s("* - потопленный корабль\n");
+	printf_s("Г“Г±Г«Г®ГўГ­Г»ГҐ Г®ГЎГ®Г§Г­Г Г·ГҐГ­ГЁГї:\n");
+	printf_s("o - Г·Г Г±ГІГј ГЄГ®Г°Г ГЎГ«Гї\n");
+	printf_s(". - ГЇГіГ±ГІГ Гї ГЄГ«ГҐГІГЄГ \n");
+	printf_s("x - ГЇГ®ГўГ°ГҐГ¦Г¤ВёГ­Г­Г Гї Г·Г Г±ГІГј ГЄГ®Г°Г ГЎГ«Гї\n");
+	printf_s("* - ГЇГ®ГІГ®ГЇГ«ГҐГ­Г­Г»Г© ГЄГ®Г°Г ГЎГ«Гј\n");
 	char field[FIELD_SIZE][FIELD_SIZE];
 	for (int i = 0; i < FIELD_SIZE; i++) {
 		for (int j = 0; j < FIELD_SIZE; j++) {
-			field[i][j] = ' ';//"обнуляем" поле
+			field[i][j] = ' ';//"Г®ГЎГ­ГіГ«ГїГҐГ¬" ГЇГ®Г«ГҐ
 		}
 	}
 	printField(field, 1);
 
 	int shipsCount[] = { 4,3,2,1 };//o - 4, oo - 3, ooo - 2, oooo - 1
 	
-	while (getSumm(shipsCount, 4) != 0) {////////////////цикл расстановки кораблей
+	while (getSumm(shipsCount, 4) != 0) {////////////////Г¶ГЁГЄГ« Г°Г Г±Г±ГІГ Г­Г®ГўГЄГЁ ГЄГ®Г°Г ГЎГ«ГҐГ©
 		printShipsCount(shipsCount);
 		int currType;
 		int x;
 		struct Coordinate beginning;
 		struct Coordinate ending;
-		printf_s("Выберите тип корабля: ");
+		printf_s("Г‚Г»ГЎГҐГ°ГЁГІГҐ ГІГЁГЇ ГЄГ®Г°Г ГЎГ«Гї: ");
 		currType = getType();
 		while (shipsCount[currType - 1] == 0) {
-			printf_s("Корабли данного типа закончились. Выберите другой тип: ");
+			printf_s("ГЉГ®Г°Г ГЎГ«ГЁ Г¤Г Г­Г­Г®ГЈГ® ГІГЁГЇГ  Г§Г ГЄГ®Г­Г·ГЁГ«ГЁГ±Гј. Г‚Г»ГЎГҐГ°ГЁГІГҐ Г¤Г°ГіГЈГ®Г© ГІГЁГЇ: ");
 			currType = getType();
 		}
 		if (currType == 1) {
-			printf_s("Укажите его координаты: ");
+			printf_s("Г“ГЄГ Г¦ГЁГІГҐ ГҐГЈГ® ГЄГ®Г®Г°Г¤ГЁГ­Г ГІГ»: ");
 			beginning = getCoordinate(field);
 
 		}
 		else {
-			printf_s("Укажите координаты начала корабля: ");
+			printf_s("Г“ГЄГ Г¦ГЁГІГҐ ГЄГ®Г®Г°Г¤ГЁГ­Г ГІГ» Г­Г Г·Г Г«Г  ГЄГ®Г°Г ГЎГ«Гї: ");
 			beginning = getCoordinate(field);
 
-			printf_s("Укажите координаты конца корабля: ");
+			printf_s("Г“ГЄГ Г¦ГЁГІГҐ ГЄГ®Г®Г°Г¤ГЁГ­Г ГІГ» ГЄГ®Г­Г¶Г  ГЄГ®Г°Г ГЎГ«Гї: ");
 			ending = getCoordinate(field);
 
-			//////координаты должны быть на одной линии
+			//////ГЄГ®Г®Г°Г¤ГЁГ­Г ГІГ» Г¤Г®Г«Г¦Г­Г» ГЎГ»ГІГј Г­Г  Г®Г¤Г­Г®Г© Г«ГЁГ­ГЁГЁ
 			while ((beginning.ch != ending.ch) && (beginning.num != ending.num)) {
-				printf_s("Координаты начала и конца корабля должны быть на одной линии.\n");
-				printf_s("Укажите координаты начала корабля: ");
+				printf_s("ГЉГ®Г®Г°Г¤ГЁГ­Г ГІГ» Г­Г Г·Г Г«Г  ГЁ ГЄГ®Г­Г¶Г  ГЄГ®Г°Г ГЎГ«Гї Г¤Г®Г«Г¦Г­Г» ГЎГ»ГІГј Г­Г  Г®Г¤Г­Г®Г© Г«ГЁГ­ГЁГЁ.\n");
+				printf_s("Г“ГЄГ Г¦ГЁГІГҐ ГЄГ®Г®Г°Г¤ГЁГ­Г ГІГ» Г­Г Г·Г Г«Г  ГЄГ®Г°Г ГЎГ«Гї: ");
 				beginning = getCoordinate(field);
-				printf_s("Укажите координаты конца корабля: ");
+				printf_s("Г“ГЄГ Г¦ГЁГІГҐ ГЄГ®Г®Г°Г¤ГЁГ­Г ГІГ» ГЄГ®Г­Г¶Г  ГЄГ®Г°Г ГЎГ«Гї: ");
 				ending = getCoordinate(field);
 			}
 
 			/////////beginning<ending
 			while ((beginning.ch > ending.ch) || (beginning.num > ending.num)) {
-				printf_s("Координаты начала должны быть меньше координат конца корабля.\n");
-				printf_s("Укажите координаты начала корабля: ");
+				printf_s("ГЉГ®Г®Г°Г¤ГЁГ­Г ГІГ» Г­Г Г·Г Г«Г  Г¤Г®Г«Г¦Г­Г» ГЎГ»ГІГј Г¬ГҐГ­ГјГёГҐ ГЄГ®Г®Г°Г¤ГЁГ­Г ГІ ГЄГ®Г­Г¶Г  ГЄГ®Г°Г ГЎГ«Гї.\n");
+				printf_s("Г“ГЄГ Г¦ГЁГІГҐ ГЄГ®Г®Г°Г¤ГЁГ­Г ГІГ» Г­Г Г·Г Г«Г  ГЄГ®Г°Г ГЎГ«Гї: ");
 				beginning = getCoordinate(field);
-				printf_s("Укажите координаты конца корабля: ");
+				printf_s("Г“ГЄГ Г¦ГЁГІГҐ ГЄГ®Г®Г°Г¤ГЁГ­Г ГІГ» ГЄГ®Г­Г¶Г  ГЄГ®Г°Г ГЎГ«Гї: ");
 				ending = getCoordinate(field);
 			}
 
-			//////////проверка длины корабля 
+			//////////ГЇГ°Г®ГўГҐГ°ГЄГ  Г¤Г«ГЁГ­Г» ГЄГ®Г°Г ГЎГ«Гї 
 
 			while (getShipLen(beginning, ending) != currType - 1) {
-				printf_s("Длина должна соответствовать типу %d, укажите другие координаты.\n", currType);
-				printf_s("Укажите координаты начала корабля: ");
+				printf_s("Г„Г«ГЁГ­Г  Г¤Г®Г«Г¦Г­Г  Г±Г®Г®ГІГўГҐГІГ±ГІГўГ®ГўГ ГІГј ГІГЁГЇГі %d, ГіГЄГ Г¦ГЁГІГҐ Г¤Г°ГіГЈГЁГҐ ГЄГ®Г®Г°Г¤ГЁГ­Г ГІГ».\n", currType);
+				printf_s("Г“ГЄГ Г¦ГЁГІГҐ ГЄГ®Г®Г°Г¤ГЁГ­Г ГІГ» Г­Г Г·Г Г«Г  ГЄГ®Г°Г ГЎГ«Гї: ");
 				beginning = getCoordinate(field);
 
-				printf_s("Укажите координаты конца корабля: ");
+				printf_s("Г“ГЄГ Г¦ГЁГІГҐ ГЄГ®Г®Г°Г¤ГЁГ­Г ГІГ» ГЄГ®Г­Г¶Г  ГЄГ®Г°Г ГЎГ«Гї: ");
 				ending = getCoordinate(field);
 
 			}
 		}
 
-		////////проверка на соприкасание кораблей
+		////////ГЇГ°Г®ГўГҐГ°ГЄГ  Г­Г  Г±Г®ГЇГ°ГЁГЄГ Г±Г Г­ГЁГҐ ГЄГ®Г°Г ГЎГ«ГҐГ©
 		if (addShip(field, beginning, ending, currType) == 0) {
-			printf_s("Корабль пересекается с соседними. Выберите другой корабль.\n");
+			printf_s("ГЉГ®Г°Г ГЎГ«Гј ГЇГҐГ°ГҐГ±ГҐГЄГ ГҐГІГ±Гї Г± Г±Г®Г±ГҐГ¤Г­ГЁГ¬ГЁ. Г‚Г»ГЎГҐГ°ГЁГІГҐ Г¤Г°ГіГЈГ®Г© ГЄГ®Г°Г ГЎГ«Гј.\n");
 		}
 		else {
 			shipsCount[currType - 1]--;
@@ -90,55 +90,55 @@ int main() {
 	char botField[FIELD_SIZE][FIELD_SIZE];
 	for (int i = 0; i < FIELD_SIZE; i++) {
 		for (int j = 0; j < FIELD_SIZE; j++) {
-			botField[i][j] = ' ';//"обнуляем" поле
+			botField[i][j] = ' ';//"Г®ГЎГ­ГіГ«ГїГҐГ¬" ГЇГ®Г«ГҐ
 		}
 	}
 
-	fillBotField(botField);//заполняем поле бота
+	fillBotField(botField);//Г§Г ГЇГ®Г«Г­ГїГҐГ¬ ГЇГ®Г«ГҐ ГЎГ®ГІГ 
 
 	struct Coordinate aim;
 	struct Coordinate botAim;
-	botAim.ch = '0';//обнуляем текущую цель бота 
+	botAim.ch = '0';//Г®ГЎГ­ГіГ«ГїГҐГ¬ ГІГҐГЄГіГ№ГіГѕ Г¶ГҐГ«Гј ГЎГ®ГІГ  
 	botAim.num = 0;
-	int playerShipsCount[] = { 4,3,2,1 };//оставшиеся корабли игрока
-	int botShipsCount[] = { 4,3,2,1 };//оставшиеся корабли противника
+	int playerShipsCount[] = { 4,3,2,1 };//Г®Г±ГІГ ГўГёГЁГҐГ±Гї ГЄГ®Г°Г ГЎГ«ГЁ ГЁГЈГ°Г®ГЄГ 
+	int botShipsCount[] = { 4,3,2,1 };//Г®Г±ГІГ ГўГёГЁГҐГ±Гї ГЄГ®Г°Г ГЎГ«ГЁ ГЇГ°Г®ГІГЁГўГ­ГЁГЄГ 
 	printGameSpace(field, botField, botShipsCount, playerShipsCount);
-	//игровой цикл
+	//ГЁГЈГ°Г®ГўГ®Г© Г¶ГЁГЄГ«
 	while ((getSumm(playerShipsCount, 4) != 0) && (getSumm(botShipsCount, 4) != 0)) {
-		//ход игрока
+		//ГµГ®Г¤ ГЁГЈГ°Г®ГЄГ 
 
-		printf_s("\nВведите координаты цели: ");
+		printf_s("\nГ‚ГўГҐГ¤ГЁГІГҐ ГЄГ®Г®Г°Г¤ГЁГ­Г ГІГ» Г¶ГҐГ«ГЁ: ");
 		aim = getCoordinate(botField);
 		int t = nextTurn(aim, botField, botShipsCount);
-		while ((t == 1) || (t == 2)) {//если игрок попал по цели, то следующий ход переходит ему
+		while ((t == 1) || (t == 2)) {//ГҐГ±Г«ГЁ ГЁГЈГ°Г®ГЄ ГЇГ®ГЇГ Г« ГЇГ® Г¶ГҐГ«ГЁ, ГІГ® Г±Г«ГҐГ¤ГіГѕГ№ГЁГ© ГµГ®Г¤ ГЇГҐГ°ГҐГµГ®Г¤ГЁГІ ГҐГ¬Гі
 			printGameSpace(field, botField, botShipsCount, playerShipsCount);
-			printf_s("\nВведите координаты цели: ");
+			printf_s("\nГ‚ГўГҐГ¤ГЁГІГҐ ГЄГ®Г®Г°Г¤ГЁГ­Г ГІГ» Г¶ГҐГ«ГЁ: ");
 			aim = getCoordinate(botField);
 			t = nextTurn(aim, botField, botShipsCount);
 		}
 
 		printGameSpace(field, botField, botShipsCount, playerShipsCount);
-		if (t == 3) {//если все корабли противника убиты
+		if (t == 3) {//ГҐГ±Г«ГЁ ГўГ±ГҐ ГЄГ®Г°Г ГЎГ«ГЁ ГЇГ°Г®ГІГЁГўГ­ГЁГЄГ  ГіГЎГЁГІГ»
 			break;
 		}
 
-		//ход бота
-		printf_s("\nХод противника\n");
+		//ГµГ®Г¤ ГЎГ®ГІГ 
+		printf_s("\nГ•Г®Г¤ ГЇГ°Г®ГІГЁГўГ­ГЁГЄГ \n");
 		botAim = botTurn(field, botField, botShipsCount, playerShipsCount, botAim);
 
 	}
 	if (getSumm(playerShipsCount, 4) == 0) {
-		printf_s("\nВы проиграли!");
+		printf_s("\nГ‚Г» ГЇГ°Г®ГЁГЈГ°Г Г«ГЁ!");
 	}
 	else {
-		printf_s("\nВы выйграли!");
+		printf_s("\nГ‚Г» ГўГ»Г©ГЈГ°Г Г«ГЁ!");
 	}
 
 	int x = getchar();
-	while (x != '\n') {//сбрасываем всё введённое ранее
+	while (x != '\n') {//Г±ГЎГ°Г Г±Г»ГўГ ГҐГ¬ ГўГ±Вё ГўГўГҐГ¤ВёГ­Г­Г®ГҐ Г°Г Г­ГҐГҐ
 		x = getchar();
 	}
-	printf_s("\nВведите любой символ для выхода: ");//считываем новые данные
+	printf_s("\nГ‚ГўГҐГ¤ГЁГІГҐ Г«ГѕГЎГ®Г© Г±ГЁГ¬ГўГ®Г« Г¤Г«Гї ГўГ»ГµГ®Г¤Г : ");//Г±Г·ГЁГІГ»ГўГ ГҐГ¬ Г­Г®ГўГ»ГҐ Г¤Г Г­Г­Г»ГҐ
 	getchar();
 	return 0;
 }
